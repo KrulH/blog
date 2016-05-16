@@ -12,9 +12,9 @@
 */
 
 Route::get('/', [
-    'uses' => 'PostController@getBlogindex',
-    'as' => 'blog.index'
-]
+        'uses' => 'PostController@getBlogindex',
+        'as' => 'blog.index'
+    ]
 );
 
 Route::get('/blog', [
@@ -34,4 +34,13 @@ Route::get('/contact', [
     'uses' => 'ContactMessageController@getContactIndex',
     'as' => 'contact'
 ]);
+
+Route::group([
+    'prefix' => '/admin',
+], function () {
+    Route::get('/', [
+        'uses' => 'AdminController@getIndex',
+        'as' => 'admin.index'
+    ]);
+});
 
