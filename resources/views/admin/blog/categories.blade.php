@@ -1,7 +1,7 @@
 @extends('layouts.admin-master')
 @section('styles')
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="{{ URL::to('src/css/categories.css') }}">
+    <link rel="stylesheet" href="{{ URL::to('src/css/category.css') }}">
 @endsection
 @section('content')
     <div class="container">
@@ -48,5 +48,5 @@
     <script type="text/javascript">
         var token="{{ Session::token() }}";
     </script>
-    <script type="text/javascript" src="{{ URL::secure('src/js/categories.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::to('src/js/categories.js') }}"></script>
 @endsection
