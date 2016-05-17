@@ -27,7 +27,7 @@
                                 <ul>
                                     <li><a href="{{ route('admin.blog.post', ['post_id' => $post->id, 'end' => 'admin']) }}">View Post</a></li>
                                     <li><a href="{{ route('admin.blog.post.edit', ['post_id' => $post->id]) }}">Edit</a></li>
-                                    <li><a href="#" class="danger">Delete</a></li>
+                                    <li><a href="{{ route('admin.blog.post.delete',['post_id' => $post->id]) }}" class="danger">Delete</a></li>
                                 </ul>
                             </nav>
                         </div>

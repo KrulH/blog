@@ -74,6 +74,15 @@ class PostController extends Controller
         $post->update();
         return redirect()->route('admin.index')->with(['success' => 'Post Successfully Updated']);
     }
+    public function getDeletePost($post_id)
+    {
+        $post = Post::find($post_id);
+        if(!$post){
+            return redirect()->route('blog.index')->with(['fail' => 'Post not found']);
+        }
+        $post->delete();
+        return redirect()->route('admin.index')->with(['success' => 'Post Successfully Deleted']);
+    }
     private function shortenText($text, $word_count)
     {
         if(str_word_count($text,0)>$word_count)

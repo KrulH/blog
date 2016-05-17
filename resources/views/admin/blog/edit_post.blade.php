@@ -16,8 +16,13 @@
                 <label for="author">Author</label>
                 <input type="text" name="author" id="author" {{ $errors->has('author') ? 'class=has-error' : '' }} value="{{  Request::old('author') ? Request::old('author') : isset($post) ? $post->author : '' }}">
             </div>
+            <div class="input-group">
+                <label for="category_select">Add Categories</label>
+                <select name="category_select" id="category_select">
 
-                
+                        <option value="Dummy Category</option>
+                </select>
+
 
             </div>
             <div class="input-group">
