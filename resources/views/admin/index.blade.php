@@ -12,31 +12,37 @@
                 <nav>
                     <ul>
                         <li><a href="{{ route('admin.blog.create_post') }}" class="btn">New Post</a></li>
-                        <li><a href="#" class="btn">Show all Posts</a></li>
+                        <li><a href="{{ route('admin.blog.index') }}" class="btn">Show all Posts</a></li>
                     </ul>
                 </nav>
             </header>
             </header>
             <section>
                 <ul>
+                    @if(count($posts) === 0)
+                        <li>No posts</li>
+                    @else
+                        @foreach($posts as $post)
+                            <li>
+                                <article>
+                                    <div class="post-info">
+                                        <h3>{{ $post->title }}</h3>
+                                        <span class="info">{{ $post->author }} | {{ $post->created_at }}</span>
+                                    </div>
+                                    <div class="edit">
+                                        <nav>
+                                            <ul>
+                                                <li><a href="#">View Post</a></li>
+                                                <li><a href="#">Edit</a></li>
+                                                <li><a href="#" class="danger">Delete</a></li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </article>
+                            </li>
+                        @endforeach
+                    @endif
 
-                        <li>
-                            <article>
-                                <div class="post-info">
-                                    <h3>Post</h3>
-                                    <span class="info">name | date</span>
-                                </div>
-                                <div class="edit">
-                                    <nav>
-                                        <ul>
-                                            <li><a href="#">View Post</a></li>
-                                            <li><a href="#">Edit</a></li>
-                                            <li><a href="#" class="danger">Delete</a></li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </article>
-                        </li>
 
                 </ul>
             </section>
@@ -52,22 +58,22 @@
             <section>
                 <ul>
 
-                        <li>
-                            <article data-message="}" data-id="" class="contact-message">
-                                <div class="message-info">
-                                    <h3>subject</h3>
-                                    <span class="info">Sender: message | date</span>
-                                </div>
-                                <div class="edit">
-                                    <nav>
-                                        <ul>
-                                            <li><a href="#">View</a></li>
-                                            <li><a href="#" class="danger">Delete</a></li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </article>
-                        </li>
+                    <li>
+                        <article data-message="}" data-id="" class="contact-message">
+                            <div class="message-info">
+                                <h3>subject</h3>
+                                <span class="info">Sender: message | date</span>
+                            </div>
+                            <div class="edit">
+                                <nav>
+                                    <ul>
+                                        <li><a href="#">View</a></li>
+                                        <li><a href="#" class="danger">Delete</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </article>
+                    </li>
 
                 </ul>
             </section>
