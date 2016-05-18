@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Post;
 use Illuminate\Http\Request;
 
@@ -37,21 +38,22 @@ class PostController extends Controller
     }
     public function getCreatePost()
     {
-        return view('admin.blog.create_post');
+        $categories = Category::all();
+        return view('admin.blog.create_post', ['categories' => $categories]);
     }
     public function getPostIndex()
     {
         $posts = Post::paginate(5);
         return view('admin.blog.index',['posts' => $posts]);
     }
-    public function getUpdatePostAction($post_id)
-    {
-        $post = Post::find($post_id);
-        if(!$post){
-            return redirect()->route('blog.index')->with(['fail' => 'Post not found']);
-        }
-        return view('admin.blog.edit_post',['post' => $post]);
-    }
+
+
+
+
+
+
+
+
     public function getSinglePost($post_id, $end = 'frontend')
     {
         $post = Post::find($post_id);
@@ -60,6 +62,20 @@ class PostController extends Controller
         }
         return view($end.'.blog.single',['post' => $post]);
     }
+    public function getUpdatePost($post_id)
+    {
+        $post = $this->retrievePostOrFail($post_id);
+        $categories = Category::all();
+        $post_categories = $post->categories;
+        $post_categories_ids = array();
+        $i = 0;
+        foreach ($post_categories as $post_category) {
+            $post_categories_ids[$i] = $post_category->id;
+            $i++;
+        }
+        return view('admin.blog.edit_post', ['post' => $post, 'categories' => $categories, 'post_categories' => $post_categories, 'post_categories_ids' => $post_categories_ids]);
+    }
+
     public function postUpdatePost(Request $request)
     {
         $this->validate($request,[
@@ -83,13 +99,24 @@ class PostController extends Controller
         $post->delete();
         return redirect()->route('admin.index')->with(['success' => 'Post Successfully Deleted']);
     }
-    private function shortenText($text, $word_count)
+    private function retrievePostOrFail($post_id)
     {
-        if(str_word_count($text,0)>$word_count)
-        {
-            $words = str_word_count($text,2);
-            $post = array_keys($words);
-            $text = substr($text,0,$post[$word_count]). '...';
+        $post = Post::find($post_id);
+        if (!$post) {
+            return redirect()->route('admin.index')->with(['fail' => 'Post not found']);
+        }
+        return $post;
+    }
+    private function parseCategories($categories_string)
+    {
+        return explode(',',$categories_string);
+    }
+    private function shortenText($text, $words_count)
+    {
+        if (str_word_count($text, 0) > $words_count) {
+            $words = str_word_count($text, 2);
+            $pos = array_keys($words);
+            $text = substr($text, 0, $pos[$words_count]) . '...';
         }
         return $text;
     }

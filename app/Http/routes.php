@@ -67,7 +67,7 @@ Route::group([
         'as' => 'admin.blog.post'
     ]);
     Route::get('/blog/post/{post_id}/edit',[
-       'uses' => 'PostController@getUpdatePostAction',
+       'uses' => 'PostController@getUpdatePost',
         'as' => 'admin.blog.post.edit'
     ]);
     Route::post('/blog/post/update',[
