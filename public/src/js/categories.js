@@ -7,7 +7,7 @@ var docReady = setInterval(function(){
 
     for (i = 0; i < editSections.length; i++) {
         editSections[i].firstElementChild.firstElementChild.children[1].firstChild.addEventListener('click', startEdit);
-
+        editSections[i].firstElementChild.firstElementChild.children[2].firstChild.addEventListener('click', startDelete);
     }
     document.getElementsByClassName('btn')[0].addEventListener('click', createNewCategory);
 }, 100);
@@ -72,6 +72,30 @@ function endEdit(params, success, responseObj) {
     event.target.removeEventListener('click', saveEdit);
     event.target.addEventListener('click', startEdit)
 }
+function startDelete(event) {
+    // Open Modal here
+    deleteCategory(event);
+
+}
+
+function deleteCategory(event) {
+    event.preventDefault();
+    event.target.removeEventListener('click', startDelete);
+    var categoryId = event.path[4].previousElementSibling.dataset['id'];
+    ajax("GET", "/admin/blog/category/" + categoryId + "/delete", null, categoryDeleted, [event.path[5]]);
+}
+
+function categoryDeleted(params, success, responseObj) {
+    var article = params[0];
+    if (success) {
+        article.style.backgroundColor = "#ffc4be";
+        setTimeout(function() {
+            article.remove();
+            location.reload();
+        }, 300);
+    }
+}
+
 function ajax(method,url,params,callback,callbackParams){
     var http;
     if (window.XMLHttpRequest){
