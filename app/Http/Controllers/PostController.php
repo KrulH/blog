@@ -19,14 +19,20 @@ class PostController extends Controller
         ]);
 
         $post = ( new Post( $request->all() ) )->save();
-
 //        $post = new Post();
 //        $post->title = $request['title'];
 //        $post->author = $request['author'];
 //        $post->body = $request['body'];
 //        $post->save();
+        if (strlen($request['categories']) > 0) {
+            $categoryIDs = $this->parseCategories($request['categories']);
+            foreach ($categoryIDs as $categoryID) {
+                $post->categories()->attach($categoryID);
+            }
+        }
         return redirect()->route('admin.index')->with(['success' => 'Post Successfully created']);
     }
+
     public function getBlogIndex()
     {
         $posts = Post::paginate(5);
@@ -46,14 +52,6 @@ class PostController extends Controller
         $posts = Post::paginate(5);
         return view('admin.blog.index',['posts' => $posts]);
     }
-
-
-
-
-
-
-
-
     public function getSinglePost($post_id, $end = 'frontend')
     {
         $post = Post::find($post_id);
@@ -88,7 +86,15 @@ class PostController extends Controller
         $post->author = $request['author'];
         $post->body = $request['body'];
         $post->update();
-        return redirect()->route('admin.index')->with(['success' => 'Post Successfully Updated']);
+
+        $post->categories()->detach();
+        if (strlen($request['categories']) > 0) {
+            $categoryIDs = $this->parseCategories($request['categories']);
+            foreach ($categoryIDs as $categoryID) {
+                $post->categories()->attach($categoryID);
+            }
+        }
+        return redirect()->route('admin.index')->with(['success' => 'Post successfully updated!']);
     }
     public function getDeletePost($post_id)
     {
