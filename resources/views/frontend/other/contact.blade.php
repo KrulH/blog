@@ -10,7 +10,7 @@
 
 @section('content')
     @include('includes.info-box')
-    <form action="" method="post" id="contact-form">
+    <form action="{{ route('contact.send') }}" method="post" id="contact-form">
         <div class="input-group">
             <label for="name">Your Name</label>
             <input type="text" name="name" id="name" value="{{ Request::old('name') }}">
